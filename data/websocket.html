@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <body>
+    <script type="text/javascript">
+      var ws = new WebSocket('ws://127.0.0.1:1337/');
+      console.log(ws);
+      ws.onmessage = function(event) {
+          addon.port.emit('message', event.data);
+      };
+      ws.onopen = function(event) {
+          console.log("connection open");
+          ws.send('connected packet');
+      };
+      ws.onclose = function() {
+        console.log('Connection closed...');
+      };
+      ws.onerror = function(event) {
+        console.log('Connection Error...');
+        console.log(event);
+      };
+      addon.port.on('send', function(data) {
+        if(ws.readyState !== ws.CLOSED && ws.readyState !== ws.CLOSING && ws.readyState !== ws.CONNECTING) {
+          console.log("websocket.html::send " + data);
+          ws.send(data);
+        }
+      })
+    </script>
+  </body>
+</html>

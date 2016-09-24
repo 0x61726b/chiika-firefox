@@ -1,0 +1,28 @@
+{
+  "title": "chiika-firefox",
+  "name": "chiika-firefox",
+  "version": "0.0.1",
+  "description": "Firefox addon for Chiika to help with stream detection.",
+  "main": "index.js",
+  "author": "arkenthera",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MIT",
+  "keywords": [
+    "jetpack"
+  ],
+  "dependencies": {
+    "socket.io": "^1.4.8",
+    "websocket": "^1.0.23"
+  },
+  "permissions": {
+    "tcp-socket": {
+      "description": "Create TCP sockets and communicate over them."
+    }
+  },
+  "devDependencies": {
+    "express": "^4.14.0"
+  }
+}
