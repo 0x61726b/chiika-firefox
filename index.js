@@ -22,6 +22,8 @@ pw.port.on('message', function(message) {
 
 		if(data.state == 'get-tabs') {
 			var tabs = require('sdk/tabs');
+      console.log("?");
+      console.log(tabs);
 			send('all-tabs',tabs);
 		}
 });
@@ -40,16 +42,16 @@ function tabMessageBody(state,tab) {
 function send(state,tabs) {
   var string = state + " ";
   if(isArray(tabs)) {
-    string += "["
+    var lesser = []
     tabs.forEach(function(v) {
-      string += tabDataToJson(v);
+      lesser.push({ title: v.title, url: v.url });
     })
-    string += "]"
+    string += JSON.stringify(lesser);
   }
   else {
     string += tabDataToJson(tabs);
   }
-	pw.port.emit('send',string);
+  pw.port.emit('send',string);
 }
 
 
@@ -64,19 +66,17 @@ function logActivate(tab) {
 }
 
 function logDeactivate(tab) {
-	//send('tab-deactivate',tab);
   console.log(tab.url + " is deactivated");
 }
 
 function logClose(tab) {
-	//send('tab-close',tab);
+	send('tab-closed',tab);
   console.log(tab.url + " is closed");
 }
 
 function onOpen(tab) {
 	send('tab-created',tab);
-  console.log(tab.url + " is open");
-  tab.on("pageshow", logShow);
+  tab.on("ready", logShow);
   tab.on("activate", logActivate);
   tab.on("deactivate", logDeactivate);
   tab.on("close", logClose);

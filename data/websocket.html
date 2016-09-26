@@ -9,7 +9,6 @@
       };
       ws.onopen = function(event) {
           console.log("connection open");
-          ws.send('connected packet');
       };
       ws.onclose = function() {
         console.log('Connection closed...');
